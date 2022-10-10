@@ -41,7 +41,7 @@ public class GenerateCore {
     @Value("${threads}")
     public void setExecutor(Integer threads) {
         this.threads = threads;
-        this.executor = new ThreadPoolExecutor(threads, threads, 1L, TimeUnit.MINUTES, new LinkedBlockingQueue<>(threads * 100), new CustomizableThreadFactory("generator-"));
+        this.executor = new ThreadPoolExecutor(threads, threads, 1L, TimeUnit.MINUTES, new LinkedBlockingQueue<>(threads * 1000), new CustomizableThreadFactory("generator-"));
     }
 
     @Value("${wallet.include}")
@@ -93,7 +93,7 @@ public class GenerateCore {
         Integer lastPrintTime = 0;
         while (true) {
             BlockingQueue<Runnable> queue = executor.getQueue();
-            if (queue.size() >= (threads * 50)) {
+            if (queue.size() >= (threads * 500)) {
                 try {
                     Thread.sleep(200L);
                 } catch (InterruptedException e) {
